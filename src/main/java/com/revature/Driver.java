@@ -1,29 +1,35 @@
-package com.revature.model;
+package com.revature;
 
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
-import com.revature.model.GameController;
+import com.revature.exceptions.MissingContentException;
+import com.revature.model.Dialogue;
+import com.revature.model.KeywordLibrary;
+import com.revature.model.PlayerCharacterEntity;
 
-public class GameController {
+public class Driver {
 	private int messageID = 1, prevMessageID;
-	private static final Logger LOGGER = Logger.getLogger(GameController.class);
+	private static final Logger LOGGER = Logger.getLogger(Driver.class);
 	public static PlayerCharacterEntity player;
 	private static Scanner scanner;
 	
 	public static void main(String arg[]) {
-		new GameController();
+		new Driver();
 	}
 	
-	public GameController() {
+	public Driver() {
 		scanner = new Scanner(System.in);
 		Dialogue currentDialogue=null,previousDialogue=null;
 		String dialogueText;
 		
 		promptPlayerForFavorites();
 		
-		while (messageID<7) {
+		while (true) {
+			if (messageID-1>=Dialogue.dialogueList.length) {
+				throw new MissingContentException();
+			}
 			currentDialogue =  Dialogue.dialogueList[messageID-1];
 			if (prevMessageID != messageID) {
 				dialogueText = currentDialogue.getMessage();
@@ -40,7 +46,6 @@ public class GameController {
 			if (currentDialogue.requiresAction) {
 				prevMessageID = messageID;
 				messageID = currentDialogue.performAction(scanner.nextLine().trim().toLowerCase());
-				System.out.println("a"+messageID);
 			} else {
 				messageID = prevMessageID;
 			}

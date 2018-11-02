@@ -1,5 +1,6 @@
 package com.revature.model;
 
+import com.revature.Driver;
 import com.revature.exceptions.InvalidActionException;
 
 public class Dialogue_1 extends Dialogue {
@@ -17,7 +18,7 @@ public class Dialogue_1 extends Dialogue {
 		String[] words = action.split(" ");
 		if (words.length>=2) {
 			if (words[0].equals("search") && words[1].equals("door")) {
-				for (ObjectEntity obj: GameController.player.inventory)
+				for (ObjectEntity obj: Driver.player.inventory)
 					if (obj.getName().equals("key")) {
 						return 6;
 					}
@@ -25,20 +26,23 @@ public class Dialogue_1 extends Dialogue {
 			}
 			else if (words[0].equals("search") && words[1].equals("bed")) {
 				
-				GameController.player.inventory.add(new ObjectEntity(GameController.player.getFavoriteMeleeWeapon()));
+				Driver.player.inventory.add(new ObjectEntity(Driver.player.getFavoriteMeleeWeapon()));
 				
 				return 3;
 			}
 			else if (words[0].equals("search") && words[1].equals("wardrobe")) {
 				
-				GameController.player.inventory.add(new ObjectEntity("key"));
+				Driver.player.inventory.add(new ObjectEntity("key"));
 				
-				for (ObjectEntity obj: GameController.player.inventory) {
-					if (obj.getName().equals(GameController.player.getFavoriteMeleeWeapon())) {
+				for (ObjectEntity obj: Driver.player.inventory) {
+					if (obj.getName().equals(Driver.player.getFavoriteMeleeWeapon())) {
 						return 5;
 					}
 				}
 				return 4;
+			}
+			else if (words[0].equals("search") && words[1].equals("self")) {
+				return 7;
 			}
 		}
 		
