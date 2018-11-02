@@ -5,6 +5,7 @@ public abstract class Dialogue {
 	private  int ID;
 	public boolean requiresAction = false;
 	
+	//The list of all the dialogue objects in the game
 	public static final Dialogue dialogueList[] = {
 			new Dialogue_1(),
 			new Dialogue_2(),

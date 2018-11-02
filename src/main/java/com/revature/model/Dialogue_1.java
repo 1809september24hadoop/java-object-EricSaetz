@@ -17,6 +17,8 @@ public class Dialogue_1 extends Dialogue {
 	public int performAction(String action) {
 		String[] words = action.split(" ");
 		if (words.length>=2) {
+			//If the player attempts to search the door, different results depending
+			//on whether or not the player has the key
 			if (words[0].equals("search") && words[1].equals("door")) {
 				for (ObjectEntity obj: Driver.player.inventory)
 					if (obj.getName().equals("key")) {
@@ -24,12 +26,15 @@ public class Dialogue_1 extends Dialogue {
 					}
 				return 2;
 			}
+			//If the player searches the bed, give the player the weapon
 			else if (words[0].equals("search") && words[1].equals("bed")) {
 				
 				Driver.player.inventory.add(new ObjectEntity(Driver.player.getFavoriteMeleeWeapon()));
 				
 				return 3;
 			}
+			//If the player searches the wardrobe, different results depending on
+			//whether or not the player has the weapon; gives the player the key
 			else if (words[0].equals("search") && words[1].equals("wardrobe")) {
 				
 				Driver.player.inventory.add(new ObjectEntity("key"));
@@ -41,12 +46,17 @@ public class Dialogue_1 extends Dialogue {
 				}
 				return 4;
 			}
+			//If the player searches himself
 			else if (words[0].equals("search") && words[1].equals("self")) {
 				return 7;
 			}
 		}
 		
 		
+		/*If an invalid command is input, throw an InvalidActionException
+		/Then sleep for 100 ms because printStackTrace() is delayed
+		/and we want it to show up before the next dialogue output
+		*/
 		try {
 			throw new InvalidActionException();
 		} catch (InvalidActionException e) {
